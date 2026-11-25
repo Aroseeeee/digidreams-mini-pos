@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Category {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  products Product[]
+}
+
+model Product {
+  id         Int         @id @default(autoincrement())
+  name       String      @unique
+  categoryId Int
+  category   Category    @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  price      Int
+  stock      Int         @default(0)
+  imageUrl   String?
+  orderItems OrderItem[]
+
+  @@index([categoryId])
+}
+
+model Order {
+  id            Int         @id @default(autoincrement())
+  invoiceNumber String      @unique
+  subtotal      Int
+  discount      Int         @default(0)
+  tax           Int
+  total         Int
+  paymentMethod String
+  status        String      @default("PAID")
+  createdAt     DateTime    @default(now())
+  items         OrderItem[]
+
+  @@index([createdAt])
+}
+
+model OrderItem {
+  id        Int     @id @default(autoincrement())
+  orderId   Int
+  productId Int
+  quantity  Int
+  unitPrice Int
+  subtotal  Int
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+model Promo {
+  id       Int     @id @default(autoincrement())
+  code     String  @unique
+  type     String
+  value    Int
+  minOrder Int     @default(0)
+  isActive Boolean @default(true)
+}
