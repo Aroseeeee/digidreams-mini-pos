@@ -62,3 +62,13 @@ windsurf/skills/
 .claude/
 .agent/
 .windsurf/
+
+.agent/skills/
+agent/skills/
+.claude/skills/
+claude/skills/
+.windsurf/skills/
+windsurf/skills/
+.agent/
+.claude/
+.windsurf/
