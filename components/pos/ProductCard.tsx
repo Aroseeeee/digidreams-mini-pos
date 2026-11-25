@@ -1,6 +1,7 @@
+import Image from "next/image";
 import { formatRupiah } from "@/lib/format";
 import type { ProductDto } from "@/lib/types";
-import { getCategoryEmoji, getCategoryTheme } from "./category-display";
+import { getCategoryLabel } from "./category-display";
 
 interface ProductCardProps {
   product: ProductDto;
@@ -18,65 +19,63 @@ export function ProductCard({
   const canAdd = !isOutOfStock && !isAtStockLimit;
 
   return (
-    <article className="flex flex-col overflow-hidden rounded-3xl border border-stone-200/80 bg-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md">
-      <div
-        className={`relative flex h-28 items-center justify-between overflow-hidden bg-gradient-to-br p-4 ${getCategoryTheme(
-          product.categoryName,
-        )}`}
-      >
+    <article className="flex flex-col overflow-hidden rounded-lg border border-stone-200 bg-white">
+      <div className="relative h-36 bg-stone-100">
         {product.imageUrl ? (
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${product.imageUrl})` }}
+          <Image
+            src={product.imageUrl}
+            alt={product.name}
+            fill
+            className="object-cover"
+            sizes="(min-width: 1280px) 20vw, (min-width: 640px) 33vw, 100vw"
           />
-        ) : null}
-
-        <span className="relative flex h-12 w-12 items-center justify-center rounded-2xl bg-white/65 text-2xl shadow-sm backdrop-blur-sm">
-          {getCategoryEmoji(product.categoryName)}
-        </span>
-
-        {quantityInCart > 0 ? (
-          <span className="relative rounded-full bg-stone-900/85 px-2.5 py-1 text-[10px] font-semibold text-white">
-            {quantityInCart} di keranjang
-          </span>
         ) : (
-          <span className="relative rounded-full bg-white/70 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-stone-600 backdrop-blur-sm">
-            {product.categoryName}
-          </span>
+          <div className="flex h-full items-center justify-center text-xs text-stone-400">
+            Tidak ada gambar
+          </div>
         )}
       </div>
 
-      <div className="flex flex-1 flex-col p-4">
-        <h3 className="text-sm font-semibold leading-snug text-stone-900">
+      <div className="border-b border-stone-100 px-4 py-3">
+        <div className="flex items-start justify-between gap-2">
+          <p className="text-[11px] font-medium uppercase tracking-wide text-stone-500">
+            {getCategoryLabel(product.categoryName)}
+          </p>
+          {quantityInCart > 0 ? (
+            <span className="rounded bg-stone-100 px-2 py-0.5 text-[11px] font-medium text-stone-700">
+              {quantityInCart} di keranjang
+            </span>
+          ) : null}
+        </div>
+        <h3 className="mt-2 text-sm font-semibold text-stone-900">
           {product.name}
         </h3>
-        <p className="mt-1 text-base font-bold text-stone-950">
+        <p className="mt-1 text-sm text-stone-700">
           {formatRupiah(product.price)}
         </p>
+      </div>
 
-        <div className="mt-auto flex items-center justify-between gap-2 pt-4">
-          <span
-            className={`rounded-full px-2 py-1 text-[11px] font-semibold ${
-              isOutOfStock
-                ? "bg-rose-50 text-rose-600"
-                : product.stock <= 5
-                  ? "bg-amber-50 text-amber-700"
-                  : "bg-emerald-50 text-emerald-700"
-            }`}
-          >
-            {isOutOfStock ? "Stok habis" : `Stok ${product.stock}`}
-          </span>
+      <div className="mt-auto flex items-center justify-between gap-3 px-4 py-3">
+        <span
+          className={`text-xs ${
+            isOutOfStock
+              ? "text-red-600"
+              : product.stock <= 5
+                ? "text-amber-700"
+                : "text-stone-500"
+          }`}
+        >
+          {isOutOfStock ? "Stok habis" : `Stok ${product.stock}`}
+        </span>
 
-          <button
-            type="button"
-            onClick={() => onAdd(product)}
-            disabled={!canAdd}
-            className="rounded-xl bg-stone-900 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-amber-700 disabled:cursor-not-allowed disabled:bg-stone-200 disabled:text-stone-500"
-          >
-            + Tambah
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={() => onAdd(product)}
+          disabled={!canAdd}
+          className="rounded-md border border-stone-300 px-3 py-1.5 text-xs font-medium text-stone-800 hover:bg-stone-50 disabled:cursor-not-allowed disabled:border-stone-200 disabled:text-stone-400"
+        >
+          + Tambah
+        </button>
       </div>
     </article>
   );

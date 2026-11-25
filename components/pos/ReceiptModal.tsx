@@ -34,53 +34,48 @@ export function ReceiptModal({ order, onClose }: ReceiptModalProps) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="receipt-title"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-stone-950/60 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
     >
       <div
         id="receipt-sheet"
-        className="max-h-[92vh] w-full max-w-sm overflow-y-auto rounded-3xl bg-white shadow-2xl"
+        className="max-h-[92vh] w-full max-w-sm overflow-y-auto rounded-lg bg-white border border-stone-200"
       >
-        <div className="no-print flex items-center justify-between border-b border-stone-100 px-5 py-4">
+        <div className="no-print flex items-center justify-between border-b border-stone-200 px-4 py-3">
           <div>
-            <p className="text-sm font-bold text-stone-900">
-              Pembayaran berhasil
-            </p>
-            <p className="mt-0.5 text-xs text-stone-500">
-              Struk digital siap dicetak.
-            </p>
+            <p className="text-sm font-semibold text-stone-900">Pembayaran berhasil</p>
+            <p className="text-xs text-stone-500">{formatDateTime(order.createdAt)}</p>
           </div>
           <button
             type="button"
             onClick={onClose}
             aria-label="Tutup struk"
             autoFocus
-            className="rounded-xl p-2 text-stone-500 transition hover:bg-stone-100 hover:text-stone-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600"
+            className="rounded p-1 text-stone-500 hover:bg-stone-100 hover:text-stone-900"
           >
             <CloseIcon className="h-5 w-5" />
           </button>
         </div>
 
-        <div id="receipt-print-area" className="px-6 py-6">
-          <div className="flex items-center justify-center gap-3">
-            <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-400 to-orange-600 text-lg font-black text-white shadow-md shadow-amber-500/20">
-              D
-            </span>
-            <div>
-              <h2
-                id="receipt-title"
-                className="text-base font-black tracking-tight text-stone-950"
-              >
-                DigiDreams Space
-              </h2>
-              <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-stone-500">
-                Mini-POS & Order Engine
-              </p>
+        <div id="receipt-print-area" className="px-5 py-5">
+          <div className="text-center">
+            <h2 id="receipt-title" className="text-base font-semibold text-stone-950">
+              DigiDreams Space
+            </h2>
+            <p className="text-xs text-stone-500">Mini-POS & Order Engine</p>
+          </div>
+
+          <div className="mt-4 space-y-1 border-y border-dashed border-stone-300 py-3 text-xs text-stone-600">
+            <div className="flex justify-between gap-3">
+              <span>Invoice</span>
+              <span className="font-medium text-stone-900">{order.invoiceNumber}</span>
+            </div>
+            <div className="flex justify-between gap-3">
+              <span>Pembayaran</span>
+              <span>{order.paymentMethod}</span>
             </div>
           </div>
 
-          <div className="my-4 border-t border-dashed border-stone-300" />
-
-          <ul className="space-y-3">
+          <ul className="mt-4 space-y-3">
             {order.items.map((item) => (
               <li key={item.id} className="flex justify-between gap-3">
                 <div className="min-w-0">
@@ -119,28 +114,19 @@ export function ReceiptModal({ order, onClose }: ReceiptModalProps) {
             </div>
           </dl>
 
-          <div className="mt-3 flex items-center justify-between border-t-2 border-stone-900 pt-3">
-            <span className="text-sm font-black text-stone-900">TOTAL</span>
-            <span className="text-lg font-black tracking-tight text-stone-950">
+          <div className="mt-3 flex items-center justify-between border-t border-stone-300 pt-3">
+            <span className="text-sm font-semibold text-stone-900">Total</span>
+            <span className="text-sm font-semibold text-stone-900">
               {formatRupiah(order.total)}
             </span>
           </div>
-
-          <div className="mt-6 text-center">
-            <p className="text-xs font-semibold text-stone-700">
-              Terima kasih telah berkunjung!
-            </p>
-            <p className="mt-1 text-[10px] leading-relaxed text-stone-500">
-              Simpan struk ini sebagai bukti pembayaran.
-            </p>
-          </div>
         </div>
 
-        <div className="no-print flex gap-2 border-t border-stone-100 p-5">
+        <div className="no-print flex gap-2 border-t border-stone-200 p-4">
           <button
             type="button"
             onClick={() => window.print()}
-            className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-stone-900 px-4 py-2.5 text-xs font-bold text-white transition hover:bg-amber-700"
+            className="flex flex-1 items-center justify-center gap-2 rounded-md bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-800"
           >
             <PrinterIcon className="h-4 w-4" />
             Cetak Struk
@@ -148,7 +134,7 @@ export function ReceiptModal({ order, onClose }: ReceiptModalProps) {
           <button
             type="button"
             onClick={onClose}
-            className="rounded-xl border border-stone-200 px-4 py-2.5 text-xs font-bold text-stone-600 transition hover:bg-stone-100"
+            className="rounded-md border border-stone-300 px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-50"
           >
             Tutup
           </button>

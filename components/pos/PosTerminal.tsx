@@ -354,86 +354,51 @@ export function PosTerminal() {
   return (
     <>
       <div id="pos-app" className="min-h-screen">
-        <header className="border-b border-stone-200/80 bg-white/85 backdrop-blur">
-          <div className="mx-auto flex max-w-[1440px] flex-col gap-3 px-4 py-4 sm:px-6 md:flex-row md:items-center md:justify-between">
-            <div className="flex items-center gap-3">
-              <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-400 to-orange-600 text-lg font-black text-white shadow-lg shadow-amber-500/20">
-                D
-              </span>
-              <div>
-                <p className="text-base font-black tracking-tight text-stone-950">
-                  DigiDreams Space
-                </p>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-stone-500">
-                  Mini-POS & Order Engine
-                </p>
-              </div>
+        <header className="border-b border-stone-200 bg-white">
+          <div className="mx-auto flex max-w-[1440px] flex-col gap-2 px-4 py-4 sm:px-6 md:flex-row md:items-center md:justify-between">
+            <div>
+              <p className="text-lg font-semibold text-stone-950">DigiDreams Space</p>
+              <p className="text-sm text-stone-500">Mini-POS & Order Engine</p>
             </div>
-
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-stone-500">
-              <span className="flex items-center gap-2 font-semibold text-stone-700">
-                <span className="h-2 w-2 rounded-full bg-emerald-500" />
-                Kasir aktif
-              </span>
-              <span className="hidden items-center gap-1.5 sm:flex">
-                <kbd className="rounded-md border border-stone-200 bg-white px-1.5 py-0.5 font-mono text-[10px] text-stone-600">
-                  /
-                </kbd>
-                cari
-                <span className="mx-1 text-stone-300">·</span>
-                <kbd className="rounded-md border border-stone-200 bg-white px-1.5 py-0.5 font-mono text-[10px] text-stone-600">
-                  Esc
-                </kbd>
-                tutup struk
-              </span>
-            </div>
+            <p className="text-xs text-stone-500">
+              Shortcut: <kbd className="rounded border border-stone-300 px-1 font-mono text-[11px]">/</kbd> cari,{" "}
+              <kbd className="rounded border border-stone-300 px-1 font-mono text-[11px]">Esc</kbd> tutup struk
+            </p>
           </div>
         </header>
 
         <main className="mx-auto grid w-full max-w-[1440px] gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[minmax(0,1fr)_410px] lg:items-start lg:py-8">
           <section aria-labelledby="menu-heading">
             <div className="flex items-end justify-between gap-3">
-              <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-amber-700">
-                  Menu
-                </p>
-                <h1
-                  id="menu-heading"
-                  className="mt-1 text-2xl font-black tracking-tight text-stone-950"
-                >
-                  Pilih menu favorit
-                </h1>
-              </div>
-              <p className="pb-1 text-xs font-medium text-stone-500">
-                {isMenuLoading ? "Memuat..." : `${products.length} menu`}
+              <h1 id="menu-heading" className="text-xl font-semibold text-stone-950">
+                Menu
+              </h1>
+              <p className="text-xs text-stone-500">
+                {isMenuLoading ? "Memuat..." : `${products.length} item`}
               </p>
             </div>
 
-            <div className="relative mt-5">
-              <SearchIcon className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-stone-400" />
+            <div className="relative mt-4">
+              <SearchIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-stone-400" />
               <input
                 ref={searchInputRef}
                 type="text"
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
-                placeholder="Cari menu, misalnya latte..."
+                placeholder="Cari menu..."
                 aria-label="Cari menu"
-                className="h-12 w-full rounded-2xl border border-stone-200 bg-white pl-12 pr-14 text-sm text-stone-900 shadow-sm outline-none transition placeholder:text-stone-400 focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10"
+                className="h-10 w-full rounded-md border border-stone-300 bg-white pl-9 pr-9 text-sm text-stone-900 outline-none focus:border-stone-500"
               />
               {search ? (
                 <button
                   type="button"
                   onClick={() => setSearch("")}
                   aria-label="Hapus pencarian"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 rounded-lg p-1.5 text-stone-400 transition hover:bg-stone-100 hover:text-stone-700"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-1 text-stone-400 hover:bg-stone-100 hover:text-stone-700"
                 >
                   <CloseIcon className="h-4 w-4" />
                 </button>
-              ) : (
-                <kbd className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 rounded-md border border-stone-200 bg-stone-50 px-2 py-1 font-mono text-[10px] text-stone-500">
-                  /
-                </kbd>
-              )}
+              ) : null}
             </div>
 
             <div
@@ -448,10 +413,10 @@ export function PosTerminal() {
                   role="tab"
                   aria-selected={selectedCategory === tab}
                   onClick={() => setSelectedCategory(tab)}
-                  className={`shrink-0 rounded-xl px-4 py-2 text-xs font-semibold transition ${
+                  className={`shrink-0 rounded-md px-3 py-1.5 text-xs font-medium ${
                     selectedCategory === tab
-                      ? "bg-stone-900 text-white shadow-sm"
-                      : "border border-stone-200 bg-white text-stone-600 hover:border-stone-400 hover:text-stone-900"
+                      ? "bg-stone-900 text-white"
+                      : "border border-stone-300 bg-white text-stone-700 hover:bg-stone-50"
                   }`}
                 >
                   {tab}
@@ -462,13 +427,13 @@ export function PosTerminal() {
             {menuError ? (
               <div
                 role="alert"
-                className="mt-4 flex items-center justify-between gap-3 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3"
+                className="mt-4 flex items-center justify-between gap-3 rounded-md border border-red-200 bg-red-50 px-3 py-2"
               >
-                <p className="text-xs font-medium text-rose-700">{menuError}</p>
+                <p className="text-xs text-red-700">{menuError}</p>
                 <button
                   type="button"
                   onClick={() => setMenuVersion((version) => version + 1)}
-                  className="shrink-0 text-xs font-bold text-rose-700 underline underline-offset-2"
+                  className="shrink-0 text-xs font-medium text-red-700 underline underline-offset-2"
                 >
                   Coba lagi
                 </button>
@@ -480,18 +445,13 @@ export function PosTerminal() {
                 {Array.from({ length: 6 }).map((_, index) => (
                   <div
                     key={index}
-                    className="h-60 animate-pulse rounded-3xl border border-stone-200/70 bg-white"
+                    className="h-40 animate-pulse rounded-lg border border-stone-200 bg-stone-100"
                   />
                 ))}
               </div>
             ) : products.length === 0 ? (
-              <div className="mt-5 rounded-3xl border border-dashed border-stone-300 bg-white/60 px-6 py-16 text-center">
-                <p className="text-sm font-semibold text-stone-700">
-                  Menu tidak ditemukan
-                </p>
-                <p className="mt-1 text-xs text-stone-500">
-                  Coba kata kunci atau kategori lain.
-                </p>
+              <div className="mt-5 rounded-lg border border-dashed border-stone-300 px-6 py-12 text-center text-sm text-stone-500">
+                Menu tidak ditemukan.
               </div>
             ) : (
               <div

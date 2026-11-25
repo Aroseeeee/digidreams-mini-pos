@@ -12,27 +12,89 @@ interface SeedProduct {
   categoryName: string;
   price: number;
   stock: number;
+  imageUrl: string | null;
 }
 
 const categories = ["Coffee", "Non-Coffee", "Food"];
 
 const products: SeedProduct[] = [
-  { name: "Espresso", categoryName: "Coffee", price: 18000, stock: 40 },
-  { name: "Americano", categoryName: "Coffee", price: 22000, stock: 40 },
-  { name: "Cappuccino", categoryName: "Coffee", price: 28000, stock: 35 },
-  { name: "Cafe Latte", categoryName: "Coffee", price: 30000, stock: 35 },
+  {
+    name: "Espresso",
+    categoryName: "Coffee",
+    price: 18000,
+    stock: 40,
+    imageUrl: "/menu/espresso.png",
+  },
+  {
+    name: "Americano",
+    categoryName: "Coffee",
+    price: 22000,
+    stock: 40,
+    imageUrl: "/menu/americano.png",
+  },
+  {
+    name: "Cappuccino",
+    categoryName: "Coffee",
+    price: 28000,
+    stock: 35,
+    imageUrl: "/menu/cappuccino.png",
+  },
+  {
+    name: "Cafe Latte",
+    categoryName: "Coffee",
+    price: 30000,
+    stock: 35,
+    imageUrl: "/menu/cafe-latte.png",
+  },
   {
     name: "Kopi Susu Gula Aren",
     categoryName: "Coffee",
     price: 25000,
     stock: 50,
+    imageUrl: "/menu/kopi-susu-gula-aren.png",
   },
-  { name: "Matcha Latte", categoryName: "Non-Coffee", price: 32000, stock: 30 },
-  { name: "Chocolate", categoryName: "Non-Coffee", price: 28000, stock: 30 },
-  { name: "Teh Tarik", categoryName: "Non-Coffee", price: 20000, stock: 30 },
-  { name: "Chicken Rice Bowl", categoryName: "Food", price: 38000, stock: 25 },
-  { name: "Croissant Butter", categoryName: "Food", price: 25000, stock: 20 },
-  { name: "French Fries", categoryName: "Food", price: 22000, stock: 30 },
+  {
+    name: "Matcha Latte",
+    categoryName: "Non-Coffee",
+    price: 32000,
+    stock: 30,
+    imageUrl: "/menu/matcha-latte.png",
+  },
+  {
+    name: "Chocolate",
+    categoryName: "Non-Coffee",
+    price: 28000,
+    stock: 30,
+    imageUrl: "/menu/chocolate.png",
+  },
+  {
+    name: "Teh Tarik",
+    categoryName: "Non-Coffee",
+    price: 20000,
+    stock: 30,
+    imageUrl: "/menu/teh-tarik.png",
+  },
+  {
+    name: "Chicken Rice Bowl",
+    categoryName: "Food",
+    price: 38000,
+    stock: 25,
+    imageUrl: "/menu/chicken-rice-bowl.png",
+  },
+  {
+    name: "Croissant Butter",
+    categoryName: "Food",
+    price: 25000,
+    stock: 20,
+    imageUrl: "/menu/croissant-butter.png",
+  },
+  {
+    name: "French Fries",
+    categoryName: "Food",
+    price: 22000,
+    stock: 30,
+    imageUrl: "/menu/french-fries.png",
+  },
 ];
 
 async function main(): Promise<void> {
@@ -59,12 +121,13 @@ async function main(): Promise<void> {
 
     await prisma.product.upsert({
       where: { name: product.name },
-      update: { categoryId, price: product.price },
+      update: { categoryId, price: product.price, imageUrl: product.imageUrl },
       create: {
         name: product.name,
         categoryId,
         price: product.price,
         stock: product.stock,
+        imageUrl: product.imageUrl,
       },
     });
   }
