@@ -48,3 +48,17 @@ next-env.d.ts
 *.db
 *.db-journal
 AGENTS.md
+
+claude/skills/
+agent/skills/
+windsurf/skills/
+.claude/
+.agent/
+.windsurf/
+
+claude/skills/
+agent/skills/
+windsurf/skills/
+.claude/
+.agent/
+.windsurf/
