@@ -77,3 +77,8 @@ windsurf/skills/
 .agent/skills/
 agent/
 agent/skills/
+
+.agents/
+.agents/skills/
+agent/
+agents/skills/
